@@ -1,0 +1,10 @@
+```json id="manifest"
+{
+  "name": "English Assistant",
+  "short_name": "English",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#111827"
+}
+```

@@ -1,0 +1,274 @@
+```html id="fullindex"
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>English Assistant</title>
+
+<link rel="manifest" href="manifest.json">
+
+<meta name="theme-color" content="#111827">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-status-bar-style"
+content="black-translucent">
+
+<meta name="apple-mobile-web-app-title"
+content="English Assistant">
+
+<style>
+
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+background:#111827;
+color:white;
+padding-bottom:90px;
+}
+
+.header{
+padding:24px 20px 10px;
+font-size:28px;
+font-weight:700;
+}
+
+.sub{
+color:#9ca3af;
+padding:0 20px 20px;
+font-size:14px;
+}
+
+.card{
+margin:16px;
+background:#1f2937;
+border-radius:24px;
+padding:18px;
+}
+
+textarea{
+width:100%;
+background:#374151;
+border:none;
+border-radius:16px;
+padding:16px;
+color:white;
+font-size:18px;
+box-sizing:border-box;
+resize:none;
+font-family:inherit;
+}
+
+button{
+margin-top:14px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:16px;
+background:#2563eb;
+color:white;
+font-size:18px;
+font-weight:600;
+}
+
+.result{
+margin-top:18px;
+padding:16px;
+background:#111827;
+border-radius:18px;
+}
+
+.small{
+color:#9ca3af;
+font-size:14px;
+margin-top:8px;
+line-height:1.6;
+}
+
+.nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#1f2937;
+display:flex;
+justify-content:space-around;
+padding:14px;
+border-top:1px solid #374151;
+}
+
+.nav div{
+color:#9ca3af;
+font-size:14px;
+text-align:center;
+}
+
+.active{
+color:white !important;
+}
+
+.hidden{
+display:none;
+}
+
+.saved-item{
+background:#374151;
+padding:14px;
+border-radius:14px;
+margin-top:10px;
+line-height:1.5;
+}
+
+.big-text{
+font-size:24px;
+font-weight:700;
+line-height:1.4;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+English Assistant
+</div>
+
+<div class="sub">
+私人英语表达工作台
+</div>
+
+<div id="translatePage">
+
+<div class="card">
+
+<textarea id="input"
+rows="3">我最近真的累坏了</textarea>
+
+<button onclick="translateText()">
+获取地道表达
+</button>
+
+<div class="result">
+
+<div class="big-text">
+I’ve been completely exhausted lately.
+</div>
+
+<div class="small">
+比 “I’m very tired” 更自然，
+更像英语母语者表达长期疲惫状态。
+</div>
+
+<button onclick="saveExpression()">
+收藏这个表达
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="savedPage"
+class="hidden">
+
+<div class="card">
+
+<div class="big-text">
+收藏表达
+</div>
+
+<div id="savedList">
+
+<div class="saved-item">
+I’m honestly burned out.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="nav">
+
+<div class="active"
+onclick="showPage('translate')">
+
+<div>💬</div>
+<div>表达</div>
+
+</div>
+
+<div onclick="showPage('saved')">
+
+<div>⭐</div>
+<div>收藏</div>
+
+</div>
+
+</div>
+
+<script>
+
+function translateText(){
+
+alert(
+"这里未来会连接 AI。\n\n现在是交互 Demo。"
+);
+
+}
+
+function saveExpression(){
+
+const list =
+document.getElementById('savedList');
+
+const item =
+document.createElement('div');
+
+item.className='saved-item';
+
+item.innerText=
+'I’ve been completely exhausted lately.';
+
+list.prepend(item);
+
+}
+
+function showPage(page){
+
+document.getElementById('translatePage')
+.classList.add('hidden');
+
+document.getElementById('savedPage')
+.classList.add('hidden');
+
+if(page==='translate'){
+
+document.getElementById('translatePage')
+.classList.remove('hidden');
+
+}else{
+
+document.getElementById('savedPage')
+.classList.remove('hidden');
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
+```
