@@ -1,4 +1,4 @@
-```html id="fullindex"
+```html
 <!DOCTYPE html>
 <html lang="zh">
 
@@ -263,6 +263,17 @@ document.getElementById('savedPage')
 .classList.remove('hidden');
 
 }
+
+}
+
+</script>
+
+<script>
+
+if ('serviceWorker' in navigator) {
+
+navigator.serviceWorker
+.register('./sw.js')
 
 }
 
