@@ -1,11 +1,10 @@
-```html id="dictv2full"
+```html
 <!DOCTYPE html>
 <html lang="zh">
 
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
@@ -13,20 +12,15 @@ content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <meta name="theme-color" content="#111827">
 
-<meta name="apple-mobile-web-app-capable" content="yes">
-
-<meta name="apple-mobile-web-app-status-bar-style"
-content="black-translucent">
-
 <style>
 
 :root{
 --bg:#111827;
 --card:#1f2937;
---soft:#374151;
+--line:#374151;
 --text:#ffffff;
 --sub:#9ca3af;
---blue:#2563eb;
+--blue:#3b82f6;
 }
 
 body{
@@ -34,99 +28,57 @@ margin:0;
 background:var(--bg);
 color:var(--text);
 font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-padding-bottom:90px;
 }
 
 .page{
 display:none;
 height:100vh;
 overflow:auto;
-padding-bottom:120px;
+padding-bottom:90px;
 }
 
-.active-page{
+.active{
 display:block;
 }
 
-.chat-area{
-padding:20px 16px 120px;
-}
-
-.bubble{
-max-width:82%;
-padding:14px 16px;
-border-radius:22px;
-margin-bottom:14px;
-line-height:1.6;
-font-size:16px;
-white-space:pre-wrap;
-}
-
-.user{
-background:var(--blue);
-margin-left:auto;
-border-bottom-right-radius:8px;
-}
-
-.ai{
-background:var(--card);
-border-bottom-left-radius:8px;
-}
-
-.bottom-input{
+.search-bar{
 position:fixed;
-bottom:74px;
+bottom:72px;
 left:0;
 right:0;
 padding:12px;
 background:var(--bg);
+border-top:1px solid var(--line);
 display:flex;
 gap:10px;
-align-items:center;
-border-top:1px solid var(--soft);
 }
 
-.translate-input{
+.search-input{
 flex:1;
 background:var(--card);
 border:none;
-border-radius:24px;
-padding:16px;
+border-radius:14px;
+padding:14px;
 font-size:16px;
-color:var(--text);
+color:white;
 outline:none;
 }
 
-.dict-input{
-flex:1;
-background:#0f172a;
-border:1px solid #334155;
-border-radius:18px;
-padding:15px;
-font-size:17px;
-color:#93c5fd;
-outline:none;
-}
-
-.send-btn{
-width:52px;
-height:52px;
-border-radius:50%;
+.search-btn{
+width:50px;
 border:none;
+border-radius:14px;
 background:var(--blue);
 color:white;
-font-size:20px;
+font-size:18px;
 }
 
-.word-card{
-margin:20px 16px;
-background:var(--card);
-border-radius:24px;
-padding:20px;
+.word-detail{
+padding:18px 18px 120px;
 }
 
-.word{
-font-size:32px;
+.word-title{
+font-size:34px;
 font-weight:700;
 }
 
@@ -135,39 +87,58 @@ margin-top:8px;
 font-size:15px;
 color:var(--sub);
 display:flex;
-gap:10px;
 align-items:center;
+gap:10px;
+}
+
+.small-icon{
+font-size:18px;
+opacity:0.85;
 }
 
 .meaning{
-margin-top:20px;
+margin-top:24px;
 line-height:1.8;
+font-size:16px;
 }
 
-.small-actions{
-display:flex;
-gap:14px;
-margin-top:18px;
-font-size:20px;
-}
-
-.saved-card{
+.example{
+margin-top:20px;
+padding:14px;
 background:var(--card);
-margin:14px 16px;
-padding:16px;
-border-radius:20px;
+border-radius:14px;
 line-height:1.7;
+font-size:15px;
 }
 
-.saved-word{
-font-size:20px;
+.list-item{
+padding:14px 16px;
+border-bottom:1px solid var(--line);
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.list-left{
+display:flex;
+flex-direction:column;
+gap:4px;
+}
+
+.list-word{
+font-size:17px;
 font-weight:600;
 }
 
-.saved-sub{
-font-size:14px;
+.list-meaning{
+font-size:13px;
 color:var(--sub);
-margin-top:6px;
+}
+
+.top-title{
+padding:18px 16px 8px;
+font-size:13px;
+color:var(--sub);
 }
 
 .nav{
@@ -175,12 +146,12 @@ position:fixed;
 bottom:0;
 left:0;
 right:0;
-height:74px;
-background:var(--card);
+height:72px;
+background:#0f172a;
 display:flex;
 justify-content:space-around;
 align-items:center;
-border-top:1px solid var(--soft);
+border-top:1px solid var(--line);
 }
 
 .nav-item{
@@ -193,9 +164,38 @@ color:var(--sub);
 color:white;
 }
 
-.icon{
-font-size:22px;
+.nav-icon{
+font-size:20px;
 margin-bottom:4px;
+}
+
+.chat-area{
+padding:18px 16px 120px;
+}
+
+.bubble{
+max-width:82%;
+padding:14px 16px;
+border-radius:18px;
+margin-bottom:14px;
+line-height:1.6;
+font-size:15px;
+}
+
+.user{
+background:var(--blue);
+margin-left:auto;
+}
+
+.ai{
+background:var(--card);
+}
+
+.action-row{
+display:flex;
+gap:14px;
+margin-top:10px;
+font-size:16px;
 }
 
 </style>
@@ -207,24 +207,24 @@ margin-bottom:4px;
 <!-- Translate -->
 
 <div id="translate"
-class="page active-page">
+class="page active">
 
 <div class="chat-area"
 id="chatArea">
 
 <div class="bubble ai">
-Translate 功能稍后接入 AI
+输入中文，我会给出更地道的英语表达。
 </div>
 
 </div>
 
-<div class="bottom-input">
+<div class="search-bar">
 
 <input
-class="translate-input"
+class="search-input"
 placeholder="输入中文句子...">
 
-<button class="send-btn">
+<button class="search-btn">
 ↑
 </button>
 
@@ -237,49 +237,64 @@ placeholder="输入中文句子...">
 <div id="dictionary"
 class="page">
 
-<div class="word-card">
+<div class="word-detail">
 
-<div class="word"
+<div class="word-title"
 id="wordTitle">
-hello
+exhausted
 </div>
 
-<div class="phonetic"
-id="phonetic">
-/həˈləʊ/
+<div class="phonetic">
+
+<span id="phonetic">
+/ɪɡˈzɔːstɪd/
+</span>
+
+<span class="small-icon"
+onclick="playAudio()">
+🔊
+</span>
+
+<span class="small-icon"
+onclick="saveWord()">
+☆
+</span>
+
 </div>
 
 <div class="meaning"
 id="meaning">
 
-Hello used when meeting someone.
+<b>adj.</b>
+
+筋疲力尽的；极度疲惫的
 
 </div>
 
-<div class="small-actions">
+<div class="example"
+id="example">
 
-<span onclick="playAudio()">
-🔊
-</span>
+She felt completely exhausted after work.
 
-<span onclick="saveWord()">
-⭐
-</span>
+<br><br>
 
-</div>
+她下班后累坏了。
 
 </div>
 
-<div class="bottom-input">
+</div>
+
+<div class="search-bar">
 
 <input
-class="dict-input"
+class="search-input"
 id="dictInput"
 placeholder="Search word...">
 
-<button class="send-btn"
+<button
+class="search-btn"
 onclick="searchWord()">
-🔍
+⌕
 </button>
 
 </div>
@@ -291,7 +306,32 @@ onclick="searchWord()">
 <div id="words"
 class="page">
 
+<div class="top-title">
+生词本
+</div>
+
 <div id="wordList">
+
+<div class="list-item"
+onclick="openWord('exhausted')">
+
+<div class="list-left">
+
+<div class="list-word">
+exhausted
+</div>
+
+<div class="list-meaning">
+adj. 疲惫的
+</div>
+
+</div>
+
+<div class="small-icon">
+🔊
+</div>
+
+</div>
 
 </div>
 
@@ -302,8 +342,8 @@ class="page">
 <div id="phrases"
 class="page">
 
-<div class="saved-card">
-暂无收藏短语
+<div class="top-title">
+短语收藏
 </div>
 
 </div>
@@ -313,8 +353,8 @@ class="page">
 <div id="settings"
 class="page">
 
-<div class="saved-card">
-English Assistant V2
+<div class="top-title">
+设置
 </div>
 
 </div>
@@ -326,7 +366,7 @@ English Assistant V2
 <div class="nav-item active-nav"
 onclick="showPage('translate',this)">
 
-<div class="icon">💬</div>
+<div class="nav-icon">💬</div>
 Translate
 
 </div>
@@ -334,7 +374,7 @@ Translate
 <div class="nav-item"
 onclick="showPage('dictionary',this)">
 
-<div class="icon">📖</div>
+<div class="nav-icon">📖</div>
 Dictionary
 
 </div>
@@ -342,7 +382,7 @@ Dictionary
 <div class="nav-item"
 onclick="showPage('words',this)">
 
-<div class="icon">⭐</div>
+<div class="nav-icon">⭐</div>
 Words
 
 </div>
@@ -350,7 +390,7 @@ Words
 <div class="nav-item"
 onclick="showPage('phrases',this)">
 
-<div class="icon">📝</div>
+<div class="nav-icon">📝</div>
 Phrases
 
 </div>
@@ -358,7 +398,7 @@ Phrases
 <div class="nav-item"
 onclick="showPage('settings',this)">
 
-<div class="icon">⚙️</div>
+<div class="nav-icon">⚙️</div>
 Settings
 
 </div>
@@ -397,14 +437,11 @@ let phonetic = "";
 if(result.phonetics){
 
 const p =
-result.phonetics.find(
-x=>x.text
-);
+result.phonetics.find(x=>x.text);
 
 if(p){
 
 phonetic = p.text || "";
-
 currentAudio = p.audio || "";
 
 }
@@ -425,13 +462,17 @@ document.getElementById('meaning')
 `
 <b>${meaning.partOfSpeech}</b>
 
-<br><br>
-
 ${def.definition}
+`;
+
+document.getElementById('example')
+.innerHTML =
+`
+${def.example || "No example"}
 
 <br><br>
 
-${def.example || ""}
+（中文翻译稍后接入）
 `;
 
 }catch(err){
@@ -448,19 +489,15 @@ function playAudio(){
 
 if(currentAudio){
 
-const audio =
-new Audio(currentAudio);
-
-audio.play();
+new Audio(currentAudio).play();
 
 }else{
 
-const text =
-document.getElementById('wordTitle')
-.innerText;
-
 const u =
-new SpeechSynthesisUtterance(text);
+new SpeechSynthesisUtterance(
+document.getElementById('wordTitle')
+.innerText
+);
 
 u.lang='en-US';
 
@@ -476,38 +513,64 @@ const word =
 document.getElementById('wordTitle')
 .innerText;
 
+const meaning =
+document.getElementById('meaning')
+.innerText;
+
 const list =
 document.getElementById('wordList');
 
 const item =
 document.createElement('div');
 
-item.className='saved-card';
+item.className='list-item';
 
 item.innerHTML=
 `
-<div class="saved-word">
+<div class="list-left">
+
+<div class="list-word">
 ${word}
 </div>
 
-<div class="saved-sub">
-已收藏
+<div class="list-meaning">
+${meaning}
+</div>
+
+</div>
+
+<div class="small-icon">
+🔊
 </div>
 `;
 
 list.prepend(item);
 
 localStorage.setItem(
-'words',
+'wordList',
 list.innerHTML
 );
+
+}
+
+function openWord(word){
+
+showPage(
+'dictionary',
+document.querySelectorAll('.nav-item')[1]
+);
+
+document.getElementById('dictInput')
+.value = word;
+
+searchWord();
 
 }
 
 function loadWords(){
 
 const saved =
-localStorage.getItem('words');
+localStorage.getItem('wordList');
 
 if(saved){
 
@@ -522,11 +585,11 @@ function showPage(id,el){
 
 document
 .querySelectorAll('.page')
-.forEach(p=>p.classList.remove('active-page'));
+.forEach(p=>p.classList.remove('active'));
 
 document
 .getElementById(id)
-.classList.add('active-page');
+.classList.add('active');
 
 document
 .querySelectorAll('.nav-item')
