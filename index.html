@@ -71,6 +71,7 @@ border-radius:22px;
 margin-bottom:14px;
 line-height:1.6;
 font-size:16px;
+white-space:pre-wrap;
 }
 
 .user{
@@ -89,7 +90,7 @@ display:flex;
 gap:12px;
 margin-top:10px;
 font-size:18px;
-opacity:0.8;
+opacity:0.85;
 }
 
 .bottom-input{
@@ -275,25 +276,8 @@ class="page active-page">
 <div class="chat-area"
 id="chatArea">
 
-<div class="bubble user">
-我最近真的累坏了
-</div>
-
 <div class="bubble ai">
-
-<div>
-I’ve been completely exhausted lately.
-</div>
-
-<div style="margin-top:10px;color:var(--sub);font-size:14px;">
-比 “I’m very tired” 更自然，更像英语母语者表达长期疲惫状态。
-</div>
-
-<div class="action-row">
-<span onclick="copyText()">📋</span>
-<span onclick="savePhrase()">⭐</span>
-</div>
-
+欢迎使用 English Assistant
 </div>
 
 </div>
@@ -304,7 +288,8 @@ I’ve been completely exhausted lately.
 class="translate-input"
 placeholder="输入中文句子...">
 
-<button class="send-btn">
+<button class="send-btn"
+onclick="sendMessage()">
 ↑
 </button>
 
@@ -347,7 +332,7 @@ She felt completely exhausted after work.
 
 <div class="small-actions">
 <span onclick="saveWord()">⭐</span>
-<span>📋</span>
+<span onclick="copySimple('exhausted')">📋</span>
 </div>
 
 </div>
@@ -398,18 +383,6 @@ onclick="addCategory()">
 
 <div id="wordList">
 
-<div class="saved-card">
-
-<div class="saved-word">
-exhausted 🔊
-</div>
-
-<div class="saved-sub">
-默认分类
-</div>
-
-</div>
-
 </div>
 
 </div>
@@ -420,18 +393,6 @@ exhausted 🔊
 class="page">
 
 <div id="phraseList">
-
-<div class="saved-card">
-
-<div>
-I’m honestly burned out.
-</div>
-
-<div class="saved-sub">
-我真的已经筋疲力尽了。
-</div>
-
-</div>
 
 </div>
 
@@ -508,123 +469,8 @@ Settings
 
 <script>
 
-function showPage(id,el){
-
-document
-.querySelectorAll('.page')
-.forEach(p=>p.classList.remove('active-page'));
-
-document
-.getElementById(id)
-.classList.add('active-page');
-
-document
-.querySelectorAll('.nav-item')
-.forEach(n=>n.classList.remove('active-nav'));
-
-el.classList.add('active-nav');
-
-}
-
-function toggleTheme(){
-
-document.body.classList.toggle('light');
-
-}
-
-function saveWord(){
-
-const list =
-document.getElementById('wordList');
-
-const item =
-document.createElement('div');
-
-item.className='saved-card';
-
-item.innerHTML=`
-<div class="saved-word">
-natural 🔊
-</div>
-
-<div class="saved-sub">
-默认分类
-</div>
-`;
-
-list.prepend(item);
-
-}
-
-function savePhrase(){
-
-const list =
-document.getElementById('phraseList');
-
-const item =
-document.createElement('div');
-
-item.className='saved-card';
-
-item.innerHTML=`
-<div>
-I’ve been completely exhausted lately.
-</div>
-
-<div class="saved-sub">
-我最近真的累坏了。
-</div>
-`;
-
-list.prepend(item);
-
-}
-
-function addCategory(){
-
-const name =
-prompt('输入分类名称');
-
-if(!name) return;
-
-const row =
-document.querySelector('.category-row');
-
-const div =
-document.createElement('div');
-
-div.className='category';
-
-div.innerText=name;
-
-row.insertBefore(
-div,
-document.querySelector('.add-category')
-);
-
-}
-
-function copyText(){
-
-navigator.clipboard.writeText(
-"I’ve been completely exhausted lately."
-);
-
-alert("已复制");
-
-}
-
-if ('serviceWorker' in navigator) {
-
-navigator.serviceWorker
-.register('./sw.js')
-
-}
-
-```html
-<script>
-
-const GEMINI_API_KEY = "AIzaSyCey4V1vjXYd3dnGhPnM9Mv-2O0G6FRJlg";
+const GEMINI_API_KEY =
+"AIzaSyCey4V1vjXYd3dnGhPnM9Mv-2O0G6FRJlg";
 
 async function translateWithAI(text){
 
@@ -641,13 +487,9 @@ contents:[
 parts:[
 {
 text:
-`You are a native English speaker.
+`Translate this Chinese sentence into natural native English.
 
-Translate the following Chinese sentence into a natural English expression.
-
-Keep it concise and natural.
-
-Also briefly explain why this expression sounds natural.
+Also briefly explain why it sounds natural.
 
 Chinese:
 ${text}`
@@ -719,7 +561,7 @@ loading.innerHTML=
 }catch(err){
 
 loading.innerHTML=
-'Error connecting AI';
+'AI Connection Error';
 
 }
 
@@ -731,6 +573,14 @@ function copyAI(el){
 
 const text =
 el.parentElement.parentElement.innerText;
+
+navigator.clipboard.writeText(text);
+
+alert("Copied");
+
+}
+
+function copySimple(text){
 
 navigator.clipboard.writeText(text);
 
@@ -758,32 +608,6 @@ item.innerHTML=
 
 list.prepend(item);
 
-alert("Saved");
-
-}
-
-function showPage(id,el){
-
-document
-.querySelectorAll('.page')
-.forEach(p=>p.classList.remove('active-page'));
-
-document
-.getElementById(id)
-.classList.add('active-page');
-
-document
-.querySelectorAll('.nav-item')
-.forEach(n=>n.classList.remove('active-nav'));
-
-el.classList.add('active-nav');
-
-}
-
-function toggleTheme(){
-
-document.body.classList.toggle('light');
-
 }
 
 function saveWord(){
@@ -798,7 +622,7 @@ item.className='saved-card';
 
 item.innerHTML=`
 <div class="saved-word">
-natural 🔊
+exhausted 🔊
 </div>
 
 <div class="saved-sub">
@@ -834,9 +658,29 @@ document.querySelector('.add-category')
 
 }
 
+function toggleTheme(){
+
+document.body.classList.toggle('light');
+
+}
+
+function showPage(id,el){
+
 document
-.querySelector('.send-btn')
-.addEventListener('click',sendMessage);
+.querySelectorAll('.page')
+.forEach(p=>p.classList.remove('active-page'));
+
+document
+.getElementById(id)
+.classList.add('active-page');
+
+document
+.querySelectorAll('.nav-item')
+.forEach(n=>n.classList.remove('active-nav'));
+
+el.classList.add('active-nav');
+
+}
 
 if ('serviceWorker' in navigator) {
 
@@ -846,8 +690,6 @@ navigator.serviceWorker
 }
 
 </script>
-```
-
 
 </body>
 
