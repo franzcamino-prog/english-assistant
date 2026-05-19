@@ -20,9 +20,6 @@ content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-status-bar-style"
 content="black-translucent">
 
-<meta name="apple-mobile-web-app-title"
-content="English Assistant">
-
 <style>
 
 :root{
@@ -54,6 +51,8 @@ transition:0.25s;
 
 .page{
 display:none;
+height:100vh;
+overflow:auto;
 padding-bottom:120px;
 }
 
@@ -61,96 +60,177 @@ padding-bottom:120px;
 display:block;
 }
 
-.header{
-padding:24px 20px 10px;
-font-size:28px;
-font-weight:700;
+.chat-area{
+padding:20px 16px 120px;
 }
 
-.sub{
-padding:0 20px 20px;
-font-size:14px;
-color:var(--sub);
+.bubble{
+max-width:82%;
+padding:14px 16px;
+border-radius:22px;
+margin-bottom:14px;
+line-height:1.6;
+font-size:16px;
 }
 
-.card{
-margin:16px;
+.user{
+background:var(--blue);
+margin-left:auto;
+border-bottom-right-radius:8px;
+}
+
+.ai{
 background:var(--card);
-border-radius:24px;
-padding:18px;
+border-bottom-left-radius:8px;
 }
 
-textarea,input{
-width:100%;
-box-sizing:border-box;
-background:var(--soft);
+.action-row{
+display:flex;
+gap:12px;
+margin-top:10px;
+font-size:18px;
+opacity:0.8;
+}
+
+.bottom-input{
+position:fixed;
+bottom:74px;
+left:0;
+right:0;
+padding:12px;
+background:var(--bg);
+display:flex;
+gap:10px;
+align-items:center;
+border-top:1px solid var(--soft);
+}
+
+.translate-input{
+flex:1;
+background:var(--card);
 border:none;
-border-radius:16px;
+border-radius:24px;
 padding:16px;
-font-size:17px;
+font-size:16px;
 color:var(--text);
-font-family:inherit;
 outline:none;
 }
 
-button{
-margin-top:14px;
-width:100%;
-padding:14px;
+.dict-input{
+flex:1;
+background:#0f172a;
+border:1px solid #334155;
+border-radius:18px;
+padding:15px;
+font-size:17px;
+color:#93c5fd;
+outline:none;
+}
+
+.send-btn{
+width:52px;
+height:52px;
+border-radius:50%;
 border:none;
-border-radius:16px;
 background:var(--blue);
 color:white;
-font-size:17px;
-font-weight:600;
+font-size:20px;
 }
 
-.result{
-margin-top:16px;
-padding:16px;
-background:var(--bg);
-border-radius:18px;
-}
-
-.big{
-font-size:23px;
-font-weight:700;
-line-height:1.5;
-}
-
-.small{
-margin-top:10px;
-font-size:14px;
-line-height:1.7;
-color:var(--sub);
-}
-
-.save-btn{
-margin-top:14px;
-background:#f59e0b;
+.word-card{
+margin:20px 16px;
+background:var(--card);
+border-radius:24px;
+padding:20px;
 }
 
 .word{
-font-size:30px;
+font-size:32px;
 font-weight:700;
 }
 
 .phonetic{
 margin-top:8px;
-color:var(--sub);
 font-size:15px;
+color:var(--sub);
+display:flex;
+gap:10px;
+align-items:center;
 }
 
-.example{
-margin-top:16px;
-line-height:1.7;
+.meaning{
+margin-top:20px;
+line-height:1.8;
+}
+
+.small-actions{
+display:flex;
+gap:14px;
+margin-top:18px;
+font-size:20px;
+}
+
+.section{
+padding:22px 16px 10px;
+font-size:14px;
+color:var(--sub);
+}
+
+.category-row{
+display:flex;
+gap:10px;
+overflow:auto;
+padding:0 16px;
+}
+
+.category{
+background:var(--card);
+padding:10px 16px;
+border-radius:18px;
+white-space:nowrap;
+font-size:14px;
+}
+
+.active-category{
+background:var(--blue);
 }
 
 .saved-card{
-background:var(--soft);
-padding:14px;
-border-radius:16px;
-margin-top:12px;
+background:var(--card);
+margin:14px 16px;
+padding:16px;
+border-radius:20px;
+line-height:1.7;
+}
+
+.saved-word{
+font-size:20px;
+font-weight:600;
+}
+
+.saved-sub{
+font-size:14px;
+color:var(--sub);
+margin-top:6px;
+}
+
+.add-category{
+background:#f59e0b;
+color:white;
+}
+
+.settings-card{
+background:var(--card);
+margin:20px 16px;
+padding:18px;
+border-radius:22px;
+}
+
+.setting-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:8px 0;
 }
 
 .nav{
@@ -158,7 +238,7 @@ position:fixed;
 bottom:0;
 left:0;
 right:0;
-height:75px;
+height:74px;
 background:var(--card);
 display:flex;
 justify-content:space-around;
@@ -167,28 +247,18 @@ border-top:1px solid var(--soft);
 }
 
 .nav-item{
-font-size:12px;
+font-size:11px;
 text-align:center;
 color:var(--sub);
 }
 
 .active-nav{
-color:var(--text);
+color:white;
 }
 
 .icon{
 font-size:22px;
 margin-bottom:4px;
-}
-
-.switch{
-margin-top:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:var(--soft);
-padding:14px;
-border-radius:16px;
 }
 
 </style>
@@ -202,40 +272,41 @@ border-radius:16px;
 <div id="translate"
 class="page active-page">
 
-<div class="header">
-English Assistant
+<div class="chat-area"
+id="chatArea">
+
+<div class="bubble user">
+我最近真的累坏了
 </div>
 
-<div class="sub">
-私人英语表达工作台
-</div>
+<div class="bubble ai">
 
-<div class="card">
-
-<textarea rows="3"
-placeholder="输入中文句子...">我最近真的累坏了</textarea>
-
-<button>
-获取地道表达
-</button>
-
-<div class="result">
-
-<div class="big">
+<div>
 I’ve been completely exhausted lately.
 </div>
 
-<div class="small">
-比 “I’m very tired” 更自然，
-更像英语母语者表达长期疲惫状态。
+<div style="margin-top:10px;color:var(--sub);font-size:14px;">
+比 “I’m very tired” 更自然，更像英语母语者表达长期疲惫状态。
 </div>
 
-<button class="save-btn"
-onclick="savePhrase()">
-收藏这个表达
+<div class="action-row">
+<span onclick="copyText()">📋</span>
+<span onclick="savePhrase()">⭐</span>
+</div>
+
+</div>
+
+</div>
+
+<div class="bottom-input">
+
+<input
+class="translate-input"
+placeholder="输入中文句子...">
+
+<button class="send-btn">
+↑
 </button>
-
-</div>
 
 </div>
 
@@ -246,24 +317,7 @@ onclick="savePhrase()">
 <div id="dictionary"
 class="page">
 
-<div class="header">
-Dictionary
-</div>
-
-<div class="sub">
-牛津风格英语词典
-</div>
-
-<div class="card">
-
-<input
-placeholder="输入英文单词">
-
-<button>
-查询单词
-</button>
-
-<div class="result">
+<div class="word-card">
 
 <div class="word">
 exhausted
@@ -271,10 +325,10 @@ exhausted
 
 <div class="phonetic">
 /ɪɡˈzɔːstɪd/
-🔊
+<span>🔊</span>
 </div>
 
-<div class="example">
+<div class="meaning">
 
 <b>adj.</b>
 极度疲惫的
@@ -291,12 +345,22 @@ She felt completely exhausted after work.
 
 </div>
 
-<button class="save-btn"
-onclick="saveWord()">
-收藏单词
-</button>
+<div class="small-actions">
+<span onclick="saveWord()">⭐</span>
+<span>📋</span>
+</div>
 
 </div>
+
+<div class="bottom-input">
+
+<input
+class="dict-input"
+placeholder="Search word...">
+
+<button class="send-btn">
+🔍
+</button>
 
 </div>
 
@@ -307,20 +371,41 @@ onclick="saveWord()">
 <div id="vocabulary"
 class="page">
 
-<div class="header">
-Vocabulary
+<div class="section">
+单词分类
 </div>
 
-<div class="sub">
-收藏单词
+<div class="category-row">
+
+<div class="category active-category">
+默认
 </div>
 
-<div class="card">
+<div class="category">
+口语
+</div>
+
+<div class="category">
+商务
+</div>
+
+<div class="category add-category"
+onclick="addCategory()">
+＋ 新建
+</div>
+
+</div>
 
 <div id="wordList">
 
 <div class="saved-card">
+
+<div class="saved-word">
 exhausted 🔊
+</div>
+
+<div class="saved-sub">
+默认分类
 </div>
 
 </div>
@@ -334,27 +419,16 @@ exhausted 🔊
 <div id="phrasebook"
 class="page">
 
-<div class="header">
-Phrasebook
-</div>
-
-<div class="sub">
-收藏短语与句子
-</div>
-
-<div class="card">
-
 <div id="phraseList">
 
 <div class="saved-card">
+
+<div>
 I’m honestly burned out.
+</div>
 
-<br><br>
-
-<span style="color:var(--sub)">
+<div class="saved-sub">
 我真的已经筋疲力尽了。
-</span>
-
 </div>
 
 </div>
@@ -368,17 +442,9 @@ I’m honestly burned out.
 <div id="settings"
 class="page">
 
-<div class="header">
-Settings
-</div>
+<div class="settings-card">
 
-<div class="sub">
-设置
-</div>
-
-<div class="card">
-
-<div class="switch">
+<div class="setting-row">
 
 <div>
 Dark Mode
@@ -394,7 +460,7 @@ onchange="toggleTheme()">
 
 </div>
 
-<!-- Bottom Nav -->
+<!-- Nav -->
 
 <div class="nav">
 
@@ -476,7 +542,15 @@ document.createElement('div');
 
 item.className='saved-card';
 
-item.innerHTML='natural 🔊';
+item.innerHTML=`
+<div class="saved-word">
+natural 🔊
+</div>
+
+<div class="saved-sub">
+默认分类
+</div>
+`;
 
 list.prepend(item);
 
@@ -492,18 +566,51 @@ document.createElement('div');
 
 item.className='saved-card';
 
-item.innerHTML=
-`
+item.innerHTML=`
+<div>
 I’ve been completely exhausted lately.
+</div>
 
-<br><br>
-
-<span style="color:gray">
+<div class="saved-sub">
 我最近真的累坏了。
-</span>
+</div>
 `;
 
 list.prepend(item);
+
+}
+
+function addCategory(){
+
+const name =
+prompt('输入分类名称');
+
+if(!name) return;
+
+const row =
+document.querySelector('.category-row');
+
+const div =
+document.createElement('div');
+
+div.className='category';
+
+div.innerText=name;
+
+row.insertBefore(
+div,
+document.querySelector('.add-category')
+);
+
+}
+
+function copyText(){
+
+navigator.clipboard.writeText(
+"I’ve been completely exhausted lately."
+);
+
+alert("已复制");
 
 }
 
