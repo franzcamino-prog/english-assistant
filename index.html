@@ -25,12 +25,40 @@ content="English Assistant">
 
 <style>
 
+:root{
+--bg:#111827;
+--card:#1f2937;
+--soft:#374151;
+--text:#ffffff;
+--sub:#9ca3af;
+--blue:#2563eb;
+}
+
+.light{
+--bg:#f3f4f6;
+--card:#ffffff;
+--soft:#e5e7eb;
+--text:#111827;
+--sub:#6b7280;
+--blue:#2563eb;
+}
+
 body{
 margin:0;
+background:var(--bg);
+color:var(--text);
 font-family:-apple-system,BlinkMacSystemFont,sans-serif;
-background:#111827;
-color:white;
 padding-bottom:90px;
+transition:0.25s;
+}
+
+.page{
+display:none;
+padding-bottom:120px;
+}
+
+.active-page{
+display:block;
 }
 
 .header{
@@ -40,29 +68,29 @@ font-weight:700;
 }
 
 .sub{
-color:#9ca3af;
 padding:0 20px 20px;
 font-size:14px;
+color:var(--sub);
 }
 
 .card{
 margin:16px;
-background:#1f2937;
+background:var(--card);
 border-radius:24px;
 padding:18px;
 }
 
-textarea{
+textarea,input{
 width:100%;
-background:#374151;
+box-sizing:border-box;
+background:var(--soft);
 border:none;
 border-radius:16px;
 padding:16px;
-color:white;
-font-size:18px;
-box-sizing:border-box;
-resize:none;
+font-size:17px;
+color:var(--text);
 font-family:inherit;
+outline:none;
 }
 
 button{
@@ -71,24 +99,58 @@ width:100%;
 padding:14px;
 border:none;
 border-radius:16px;
-background:#2563eb;
+background:var(--blue);
 color:white;
-font-size:18px;
+font-size:17px;
 font-weight:600;
 }
 
 .result{
-margin-top:18px;
+margin-top:16px;
 padding:16px;
-background:#111827;
+background:var(--bg);
 border-radius:18px;
 }
 
+.big{
+font-size:23px;
+font-weight:700;
+line-height:1.5;
+}
+
 .small{
-color:#9ca3af;
+margin-top:10px;
 font-size:14px;
+line-height:1.7;
+color:var(--sub);
+}
+
+.save-btn{
+margin-top:14px;
+background:#f59e0b;
+}
+
+.word{
+font-size:30px;
+font-weight:700;
+}
+
+.phonetic{
 margin-top:8px;
-line-height:1.6;
+color:var(--sub);
+font-size:15px;
+}
+
+.example{
+margin-top:16px;
+line-height:1.7;
+}
+
+.saved-card{
+background:var(--soft);
+padding:14px;
+border-radius:16px;
+margin-top:12px;
 }
 
 .nav{
@@ -96,39 +158,37 @@ position:fixed;
 bottom:0;
 left:0;
 right:0;
-background:#1f2937;
+height:75px;
+background:var(--card);
 display:flex;
 justify-content:space-around;
-padding:14px;
-border-top:1px solid #374151;
+align-items:center;
+border-top:1px solid var(--soft);
 }
 
-.nav div{
-color:#9ca3af;
-font-size:14px;
+.nav-item{
+font-size:12px;
 text-align:center;
+color:var(--sub);
 }
 
-.active{
-color:white !important;
+.active-nav{
+color:var(--text);
 }
 
-.hidden{
-display:none;
+.icon{
+font-size:22px;
+margin-bottom:4px;
 }
 
-.saved-item{
-background:#374151;
+.switch{
+margin-top:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:var(--soft);
 padding:14px;
-border-radius:14px;
-margin-top:10px;
-line-height:1.5;
-}
-
-.big-text{
-font-size:24px;
-font-weight:700;
-line-height:1.4;
+border-radius:16px;
 }
 
 </style>
@@ -136,6 +196,11 @@ line-height:1.4;
 </head>
 
 <body>
+
+<!-- Translate -->
+
+<div id="translate"
+class="page active-page">
 
 <div class="header">
 English Assistant
@@ -145,20 +210,18 @@ English Assistant
 私人英语表达工作台
 </div>
 
-<div id="translatePage">
-
 <div class="card">
 
-<textarea id="input"
-rows="3">我最近真的累坏了</textarea>
+<textarea rows="3"
+placeholder="输入中文句子...">我最近真的累坏了</textarea>
 
-<button onclick="translateText()">
+<button>
 获取地道表达
 </button>
 
 <div class="result">
 
-<div class="big-text">
+<div class="big">
 I’ve been completely exhausted lately.
 </div>
 
@@ -167,7 +230,8 @@ I’ve been completely exhausted lately.
 更像英语母语者表达长期疲惫状态。
 </div>
 
-<button onclick="saveExpression()">
+<button class="save-btn"
+onclick="savePhrase()">
 收藏这个表达
 </button>
 
@@ -177,41 +241,200 @@ I’ve been completely exhausted lately.
 
 </div>
 
-<div id="savedPage"
-class="hidden">
+<!-- Dictionary -->
+
+<div id="dictionary"
+class="page">
+
+<div class="header">
+Dictionary
+</div>
+
+<div class="sub">
+牛津风格英语词典
+</div>
 
 <div class="card">
 
-<div class="big-text">
-收藏表达
+<input
+placeholder="输入英文单词">
+
+<button>
+查询单词
+</button>
+
+<div class="result">
+
+<div class="word">
+exhausted
 </div>
 
-<div id="savedList">
+<div class="phonetic">
+/ɪɡˈzɔːstɪd/
+🔊
+</div>
 
-<div class="saved-item">
+<div class="example">
+
+<b>adj.</b>
+极度疲惫的
+
+<br><br>
+
+English:
+She felt completely exhausted after work.
+
+<br><br>
+
+中文：
+她下班后感到筋疲力尽。
+
+</div>
+
+<button class="save-btn"
+onclick="saveWord()">
+收藏单词
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Vocabulary -->
+
+<div id="vocabulary"
+class="page">
+
+<div class="header">
+Vocabulary
+</div>
+
+<div class="sub">
+收藏单词
+</div>
+
+<div class="card">
+
+<div id="wordList">
+
+<div class="saved-card">
+exhausted 🔊
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Phrasebook -->
+
+<div id="phrasebook"
+class="page">
+
+<div class="header">
+Phrasebook
+</div>
+
+<div class="sub">
+收藏短语与句子
+</div>
+
+<div class="card">
+
+<div id="phraseList">
+
+<div class="saved-card">
 I’m honestly burned out.
-</div>
+
+<br><br>
+
+<span style="color:var(--sub)">
+我真的已经筋疲力尽了。
+</span>
 
 </div>
 
 </div>
 
 </div>
+
+</div>
+
+<!-- Settings -->
+
+<div id="settings"
+class="page">
+
+<div class="header">
+Settings
+</div>
+
+<div class="sub">
+设置
+</div>
+
+<div class="card">
+
+<div class="switch">
+
+<div>
+Dark Mode
+</div>
+
+<input type="checkbox"
+checked
+onchange="toggleTheme()">
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Bottom Nav -->
 
 <div class="nav">
 
-<div class="active"
-onclick="showPage('translate')">
+<div class="nav-item active-nav"
+onclick="showPage('translate',this)">
 
-<div>💬</div>
-<div>表达</div>
+<div class="icon">💬</div>
+Translate
 
 </div>
 
-<div onclick="showPage('saved')">
+<div class="nav-item"
+onclick="showPage('dictionary',this)">
 
-<div>⭐</div>
-<div>收藏</div>
+<div class="icon">📖</div>
+Dictionary
+
+</div>
+
+<div class="nav-item"
+onclick="showPage('vocabulary',this)">
+
+<div class="icon">⭐</div>
+Words
+
+</div>
+
+<div class="nav-item"
+onclick="showPage('phrasebook',this)">
+
+<div class="icon">📝</div>
+Phrases
+
+</div>
+
+<div class="nav-item"
+onclick="showPage('settings',this)">
+
+<div class="icon">⚙️</div>
+Settings
 
 </div>
 
@@ -219,56 +442,70 @@ onclick="showPage('translate')">
 
 <script>
 
-function translateText(){
+function showPage(id,el){
 
-alert(
-"这里未来会连接 AI。\n\n现在是交互 Demo。"
-);
+document
+.querySelectorAll('.page')
+.forEach(p=>p.classList.remove('active-page'));
+
+document
+.getElementById(id)
+.classList.add('active-page');
+
+document
+.querySelectorAll('.nav-item')
+.forEach(n=>n.classList.remove('active-nav'));
+
+el.classList.add('active-nav');
 
 }
 
-function saveExpression(){
+function toggleTheme(){
+
+document.body.classList.toggle('light');
+
+}
+
+function saveWord(){
 
 const list =
-document.getElementById('savedList');
+document.getElementById('wordList');
 
 const item =
 document.createElement('div');
 
-item.className='saved-item';
+item.className='saved-card';
 
-item.innerText=
-'I’ve been completely exhausted lately.';
+item.innerHTML='natural 🔊';
 
 list.prepend(item);
 
 }
 
-function showPage(page){
+function savePhrase(){
 
-document.getElementById('translatePage')
-.classList.add('hidden');
+const list =
+document.getElementById('phraseList');
 
-document.getElementById('savedPage')
-.classList.add('hidden');
+const item =
+document.createElement('div');
 
-if(page==='translate'){
+item.className='saved-card';
 
-document.getElementById('translatePage')
-.classList.remove('hidden');
+item.innerHTML=
+`
+I’ve been completely exhausted lately.
 
-}else{
+<br><br>
 
-document.getElementById('savedPage')
-.classList.remove('hidden');
+<span style="color:gray">
+我最近真的累坏了。
+</span>
+`;
+
+list.prepend(item);
 
 }
-
-}
-
-</script>
-
-<script>
 
 if ('serviceWorker' in navigator) {
 
