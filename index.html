@@ -1,4 +1,4 @@
-```html
+```html id="dictv2full"
 <!DOCTYPE html>
 <html lang="zh">
 
@@ -10,8 +10,6 @@
 content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>English Assistant</title>
-
-<link rel="manifest" href="manifest.json">
 
 <meta name="theme-color" content="#111827">
 
@@ -31,22 +29,12 @@ content="black-translucent">
 --blue:#2563eb;
 }
 
-.light{
---bg:#f3f4f6;
---card:#ffffff;
---soft:#e5e7eb;
---text:#111827;
---sub:#6b7280;
---blue:#2563eb;
-}
-
 body{
 margin:0;
 background:var(--bg);
 color:var(--text);
 font-family:-apple-system,BlinkMacSystemFont,sans-serif;
 padding-bottom:90px;
-transition:0.25s;
 }
 
 .page{
@@ -83,14 +71,6 @@ border-bottom-right-radius:8px;
 .ai{
 background:var(--card);
 border-bottom-left-radius:8px;
-}
-
-.action-row{
-display:flex;
-gap:12px;
-margin-top:10px;
-font-size:18px;
-opacity:0.85;
 }
 
 .bottom-input{
@@ -171,31 +151,6 @@ margin-top:18px;
 font-size:20px;
 }
 
-.section{
-padding:22px 16px 10px;
-font-size:14px;
-color:var(--sub);
-}
-
-.category-row{
-display:flex;
-gap:10px;
-overflow:auto;
-padding:0 16px;
-}
-
-.category{
-background:var(--card);
-padding:10px 16px;
-border-radius:18px;
-white-space:nowrap;
-font-size:14px;
-}
-
-.active-category{
-background:var(--blue);
-}
-
 .saved-card{
 background:var(--card);
 margin:14px 16px;
@@ -213,25 +168,6 @@ font-weight:600;
 font-size:14px;
 color:var(--sub);
 margin-top:6px;
-}
-
-.add-category{
-background:#f59e0b;
-color:white;
-}
-
-.settings-card{
-background:var(--card);
-margin:20px 16px;
-padding:18px;
-border-radius:22px;
-}
-
-.setting-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:8px 0;
 }
 
 .nav{
@@ -277,7 +213,7 @@ class="page active-page">
 id="chatArea">
 
 <div class="bubble ai">
-欢迎使用 English Assistant
+Translate 功能稍后接入 AI
 </div>
 
 </div>
@@ -288,8 +224,7 @@ id="chatArea">
 class="translate-input"
 placeholder="输入中文句子...">
 
-<button class="send-btn"
-onclick="sendMessage()">
+<button class="send-btn">
 ↑
 </button>
 
@@ -304,35 +239,33 @@ class="page">
 
 <div class="word-card">
 
-<div class="word">
-exhausted
+<div class="word"
+id="wordTitle">
+hello
 </div>
 
-<div class="phonetic">
-/ɪɡˈzɔːstɪd/
-<span>🔊</span>
+<div class="phonetic"
+id="phonetic">
+/həˈləʊ/
 </div>
 
-<div class="meaning">
+<div class="meaning"
+id="meaning">
 
-<b>adj.</b>
-极度疲惫的
-
-<br><br>
-
-English:
-She felt completely exhausted after work.
-
-<br><br>
-
-中文：
-她下班后感到筋疲力尽。
+Hello used when meeting someone.
 
 </div>
 
 <div class="small-actions">
-<span onclick="saveWord()">⭐</span>
-<span onclick="copySimple('exhausted')">📋</span>
+
+<span onclick="playAudio()">
+🔊
+</span>
+
+<span onclick="saveWord()">
+⭐
+</span>
+
 </div>
 
 </div>
@@ -341,9 +274,11 @@ She felt completely exhausted after work.
 
 <input
 class="dict-input"
+id="dictInput"
 placeholder="Search word...">
 
-<button class="send-btn">
+<button class="send-btn"
+onclick="searchWord()">
 🔍
 </button>
 
@@ -351,35 +286,10 @@ placeholder="Search word...">
 
 </div>
 
-<!-- Vocabulary -->
+<!-- Words -->
 
-<div id="vocabulary"
+<div id="words"
 class="page">
-
-<div class="section">
-单词分类
-</div>
-
-<div class="category-row">
-
-<div class="category active-category">
-默认
-</div>
-
-<div class="category">
-口语
-</div>
-
-<div class="category">
-商务
-</div>
-
-<div class="category add-category"
-onclick="addCategory()">
-＋ 新建
-</div>
-
-</div>
 
 <div id="wordList">
 
@@ -387,13 +297,13 @@ onclick="addCategory()">
 
 </div>
 
-<!-- Phrasebook -->
+<!-- Phrases -->
 
-<div id="phrasebook"
+<div id="phrases"
 class="page">
 
-<div id="phraseList">
-
+<div class="saved-card">
+暂无收藏短语
 </div>
 
 </div>
@@ -403,20 +313,8 @@ class="page">
 <div id="settings"
 class="page">
 
-<div class="settings-card">
-
-<div class="setting-row">
-
-<div>
-Dark Mode
-</div>
-
-<input type="checkbox"
-checked
-onchange="toggleTheme()">
-
-</div>
-
+<div class="saved-card">
+English Assistant V2
 </div>
 
 </div>
@@ -442,7 +340,7 @@ Dictionary
 </div>
 
 <div class="nav-item"
-onclick="showPage('vocabulary',this)">
+onclick="showPage('words',this)">
 
 <div class="icon">⭐</div>
 Words
@@ -450,7 +348,7 @@ Words
 </div>
 
 <div class="nav-item"
-onclick="showPage('phrasebook',this)">
+onclick="showPage('phrases',this)">
 
 <div class="icon">📝</div>
 Phrases
@@ -469,148 +367,114 @@ Settings
 
 <script>
 
-const GEMINI_API_KEY =
-"AIzaSyCey4V1vjXYd3dnGhPnM9Mv-2O0G6FRJlg";
+let currentAudio = "";
 
-async function translateWithAI(text){
+async function searchWord(){
 
-const response = await fetch(
-`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-contents:[
-{
-parts:[
-{
-text:
-`Translate this Chinese sentence into natural native English.
+const word =
+document.getElementById('dictInput')
+.value.trim();
 
-Also briefly explain why it sounds natural.
-
-Chinese:
-${text}`
-}
-]
-}
-]
-})
-}
-);
-
-const data = await response.json();
-
-return data.candidates[0]
-.content.parts[0].text;
-
-}
-
-async function sendMessage(){
-
-const input =
-document.querySelector('.translate-input');
-
-const text = input.value.trim();
-
-if(!text) return;
-
-const area =
-document.getElementById('chatArea');
-
-const userBubble =
-document.createElement('div');
-
-userBubble.className =
-'bubble user';
-
-userBubble.innerText = text;
-
-area.appendChild(userBubble);
-
-input.value='';
-
-const loading =
-document.createElement('div');
-
-loading.className='bubble ai';
-
-loading.innerHTML='Thinking...';
-
-area.appendChild(loading);
-
-area.scrollTop = area.scrollHeight;
+if(!word) return;
 
 try{
 
-const result =
-await translateWithAI(text);
+const response =
+await fetch(
+`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
+);
 
-loading.innerHTML=
+const data =
+await response.json();
+
+const result = data[0];
+
+document.getElementById('wordTitle')
+.innerText = result.word;
+
+let phonetic = "";
+
+if(result.phonetics){
+
+const p =
+result.phonetics.find(
+x=>x.text
+);
+
+if(p){
+
+phonetic = p.text || "";
+
+currentAudio = p.audio || "";
+
+}
+
+}
+
+document.getElementById('phonetic')
+.innerText = phonetic;
+
+const meaning =
+result.meanings[0];
+
+const def =
+meaning.definitions[0];
+
+document.getElementById('meaning')
+.innerHTML =
 `
-<div>${result.replace(/\n/g,'<br>')}</div>
+<b>${meaning.partOfSpeech}</b>
 
-<div class="action-row">
-<span onclick="copyAI(this)">📋</span>
-<span onclick="savePhrase(this)">⭐</span>
-</div>
+<br><br>
+
+${def.definition}
+
+<br><br>
+
+${def.example || ""}
 `;
 
 }catch(err){
 
-loading.innerHTML=
-'AI Connection Error';
+document.getElementById('meaning')
+.innerHTML =
+"Word not found.";
 
 }
 
-area.scrollTop = area.scrollHeight;
-
 }
 
-function copyAI(el){
+function playAudio(){
+
+if(currentAudio){
+
+const audio =
+new Audio(currentAudio);
+
+audio.play();
+
+}else{
 
 const text =
-el.parentElement.parentElement.innerText;
+document.getElementById('wordTitle')
+.innerText;
 
-navigator.clipboard.writeText(text);
+const u =
+new SpeechSynthesisUtterance(text);
 
-alert("Copied");
+u.lang='en-US';
 
-}
-
-function copySimple(text){
-
-navigator.clipboard.writeText(text);
-
-alert("Copied");
+speechSynthesis.speak(u);
 
 }
-
-function savePhrase(el){
-
-const text =
-el.parentElement.parentElement.innerText;
-
-const list =
-document.getElementById('phraseList');
-
-const item =
-document.createElement('div');
-
-item.className='saved-card';
-
-item.innerHTML=
-`
-<div>${text}</div>
-`;
-
-list.prepend(item);
 
 }
 
 function saveWord(){
+
+const word =
+document.getElementById('wordTitle')
+.innerText;
 
 const list =
 document.getElementById('wordList');
@@ -620,47 +484,37 @@ document.createElement('div');
 
 item.className='saved-card';
 
-item.innerHTML=`
+item.innerHTML=
+`
 <div class="saved-word">
-exhausted 🔊
+${word}
 </div>
 
 <div class="saved-sub">
-默认分类
+已收藏
 </div>
 `;
 
 list.prepend(item);
 
-}
-
-function addCategory(){
-
-const name =
-prompt('输入分类名称');
-
-if(!name) return;
-
-const row =
-document.querySelector('.category-row');
-
-const div =
-document.createElement('div');
-
-div.className='category';
-
-div.innerText=name;
-
-row.insertBefore(
-div,
-document.querySelector('.add-category')
+localStorage.setItem(
+'words',
+list.innerHTML
 );
 
 }
 
-function toggleTheme(){
+function loadWords(){
 
-document.body.classList.toggle('light');
+const saved =
+localStorage.getItem('words');
+
+if(saved){
+
+document.getElementById('wordList')
+.innerHTML = saved;
+
+}
 
 }
 
@@ -682,12 +536,7 @@ el.classList.add('active-nav');
 
 }
 
-if ('serviceWorker' in navigator) {
-
-navigator.serviceWorker
-.register('./sw.js')
-
-}
+loadWords();
 
 </script>
 
